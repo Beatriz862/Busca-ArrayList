@@ -1,0 +1,65 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Conta {
+    private String numeroConta;
+    private double saldo;
+
+    public Conta(String numeroConta, double saldo) {
+        this.numeroConta = numeroConta;
+        this.saldo = saldo;
+    }
+
+    public String getNumeroConta() {
+        return numeroConta;
+    }
+
+    public void setNumeroConta(String numeroConta) {
+        this.numeroConta = numeroConta;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Conta outraConta = (Conta) obj;
+        return numeroConta.equals(outraConta.numeroConta) && saldo == outraConta.saldo;
+    }
+}
+
+class ContaNaoEncontradaException extends Exception {
+    public ContaNaoEncontradaException(String mensagem) {
+        super(mensagem);
+    }
+}
+
+class Banco {
+    private List<Conta> contas;
+
+    public Banco() {
+        contas = new ArrayList<>();
+    }
+
+    public void adicionarConta(Conta conta) {
+        contas.add(conta);
+    }
+
+    public Conta buscarContaPorNumero(String numeroConta) throws ContaNaoEncontradaException {
+        for (Conta conta : contas) {
+            if (conta.getNumeroConta().equals(numeroConta)) {
+                return conta;
+            }
+        }
+        throw new ContaNaoEncontradaException("Conta não encontrada.");
+    }
+}
